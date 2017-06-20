@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+{% block title %}登陆OMS{% endblock %}
+{% block container %}
+
+        <div class="row">
+            <div class="col-md-3" id="login-wrapper">
+                <div class="panel panel-primary animated flipInY">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Sign In
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Login to access your account.</p>
+                        <form class="form-horizontal" action='/login' method='post'>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input type="text" name="username" class="form-control" id="name" placeholder="Username">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input type="text" name="password" class="form-control" id="password" placeholder="Password">
+                                    <i class="fa fa-lock"></i>
+                                    <a href="javascript:void(0)" class="help-block">Forgot Your Password?</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input class="btn btn-primary btn-block" type="submit" value="Sign in" />
+                                    <!--<a href=”javascript:form.submit();” class="btn btn-primary btn-block" >Sign in</a>
+                                    <hr />-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}

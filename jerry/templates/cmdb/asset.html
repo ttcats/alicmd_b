@@ -1,0 +1,171 @@
+{% extends "index.html" %}
+{% block title %}资产管理{% endblock %}
+{% block content %}
+
+<script type="text/javascript">
+function altRows(id){
+	if(document.getElementsByTagName){  
+		
+		var table = document.getElementById(id);  
+		var rows = table.getElementsByTagName("tr"); 
+		 
+		for(i = 0; i < rows.length; i++){          
+			if(i % 2 == 0){
+				rows[i].className = "evenrowcolor";
+			}else{
+				rows[i].className = "oddrowcolor";
+			}      
+		}
+	}
+}
+
+window.onload=function(){
+	altRows('alternatecolor');
+}
+</script>
+
+
+<div class="row">
+
+<div class="col-md-10 col-sm-10 panel panel-default">
+<ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="">Cmdb</a></li>
+  <li class="active">Asset</li>
+</ol>
+<div class="panel-heading">
+<ol style="padding-left: 15px;">
+<h5><strong>主机详细信息列表</strong></h5>
+</ol>
+</div>
+
+<!--<div class="panel-heading">
+<ol class="breadcrumb">
+<div class="col-sm-1" style="padding-left: 0">
+<a class="btn btn-sm btn-primary " href="/cmdb/asset/add/"> 添加资产 </a>
+</div>
+<ol>
+</div>-->
+
+<div class="panel-heading">
+<div class="row">
+<ol class="breadcrumb">
+
+<div class="col-md-12">
+<!--<div class="col-sm-1" style="padding-left: 0">-->
+<a class="btn btn-sm btn-primary" href="/cmdb/asset/add/"> 添加资产 </a>
+<input type="submit" class="keyword" id="btn" value="提交" onclick="Keyword(keyword.value);return false;" >
+<input type="text" class="keyword" id="keyword"  onkeypress="if(event.keyCode==13) {btn.click();return false;}" placeholder="Search" value="">
+<!--</div>-->
+</div>
+
+<div class="col-md-12">
+<table class="altrowstable" id="alternatecolor">
+<tr>
+	<th>主机名</th>
+        <th>IP地址</th>
+        <th>IDC</th>
+        <th>所属主机组</th>
+        <th>操作系统</th>
+        <th>cpu核数</th>
+        <th>内存</th>
+        <th>硬盘</th>
+        <th>激活状态</th>
+        <th>操作</th>
+</tr>
+{% for asset in contacts %}
+<tr>
+	<td style="width: 14%">{{ asset.hostname }}</td>
+        <td style="width: 8%">{{ asset.ip }}</td>
+	<td style="width: 6%">{{ asset.idc.name }}</td>
+        <td style="width: 14%">{% for info in asset.group.all %}{{ info.name }} {% endfor %}</td>
+        <td style="width: 8%">{{ asset.system_type }}{{ asset.system_version|default_if_none:"" }}</td>
+        <td style="width: 8%">{{ asset.cpu }}</td>
+        <td style="width: 8%">{{ asset.memory|filesizeformat }}</td>
+        <td style="width: 8%">{{ asset.disk }}</td>
+        <td style="width: 6%">
+
+        {% if asset.is_active %}
+        <a>{{ asset.is_active }}</a></td>
+        {% else %}
+        <a style="color: red">{{ asset.is_active }}</a></td>
+        {% endif %}
+        <td style="width: 10%">
+          <a class="btn btn-xs btn-info" href="/cmdb/asset/edit/?id={{ asset.id }}">编辑</a>
+          <a class="btn btn-xs btn-warning" onclick="Updateasset({{ asset.id }})" >更新</a>
+          <a class="btn btn-xs btn-danger" onclick="Delasset({{ asset.id }})" value="/cmdb/asset/del/?id={{ asset.id }}">删除</a>
+        </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="col-md-12">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li>
+           {% if contacts.has_previous %}
+             <a href="?page={{ contacts.previous_page_number }}{{ Search }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+           {% endif %}
+          </li>
+
+          {% if contacts.number >= 4  %}
+             {% if contacts.number|add:"4" < contacts.paginator.num_pages %}
+              <li><a href="?page=1{{ Search }}">1...</a></li>
+              <li><a href="?page={{ contacts.number|add:"-2" }}{{ Search }}">{{ contacts.number|add:"-2" }}</a></li>
+              <li><a href="?page={{ contacts.number|add:"-1" }}{{ Search }}">{{ contacts.number|add:"-1" }}</a></li>
+              <li><a href="?page={{ contacts.number }}{{ Search }}">{{ contacts.number }}</a></li>
+              <li><a href="?page={{ contacts.number|add:"1" }}{{ Search }}">{{ contacts.number|add:"1" }}</a></li>
+              <li><a href="?page={{ contacts.number|add:"2" }}{{ Search }}">{{ contacts.number|add:"2" }}</a></li>
+              <li><a href="?page={{ contacts.paginator.num_pages }}{{ Search }}">...{{ contacts.paginator.num_pages }}</a></li>
+             {% else %}
+              <li><a href="?page=1{{ Search }}">1...</a></li>
+              <li><a href="?page={{ contacts.paginator.num_pages|add:"-5" }}{{ Search }}">{{ contacts.paginator.num_pages|add:"-5" }}</a></li>
+              <li><a href="?page={{ contacts.paginator.num_pages|add:"-4" }}{{ Search }}">{{ contacts.paginator.num_pages|add:"-4" }}</a></li>
+              <li><a href="?page={{ contacts.paginator.num_pages|add:"-3" }}{{ Search }}">{{ contacts.paginator.num_pages|add:"-3" }}</a></li>
+              <li><a href="?page={{ contacts.paginator.num_pages|add:"-2" }}{{ Search }}">{{ contacts.paginator.num_pages|add:"-2" }}</a></li>
+              <li><a href="?page={{ contacts.paginator.num_pages|add:"-1" }}{{ Search }}">{{ contacts.paginator.num_pages|add:"-1" }}</a></li>
+              <li><a href="?page={{ contacts.paginator.num_pages }}{{ Search }}">{{ contacts.paginator.num_pages }}</a></li>
+             {% endif %}
+          {% else %}
+              {% if contacts.paginator.num_pages < 4 %}
+                {% if contacts.paginator.num_pages != 1 %}
+                 {% for i in number_list %}
+                 <li><a href="?page={{ i }}{{ Search }}">{{ i }}</a></li>
+                 {% endfor %}
+                {% endif %}
+              {% else %}
+              {% for i in number_list|slice:":5" %}
+              <li><a href="?page={{ i }}{{ Search }}">{{ i }}</a></li>
+              {% endfor %}
+              <li><a href="?page={{ contacts.paginator.num_pages }}{{ Search }}">...{{ contacts.paginator.num_pages }}</a></li>
+              {% endif %}
+          {% endif %}
+
+          <li>
+           {% if contacts.has_next %}
+             <a href="?page={{ contacts.next_page_number }}{{ Search }}"><span aria-hidden="true">&raquo;</span></a>
+           {% endif %}
+          </li>
+        </ul>
+    </nav>
+</div>
+
+
+</ol>
+</div>
+</div>
+
+   <div class="panel-body">
+   </div>
+ </div>
+</div>
+
+<script type="text/javascript">
+   var data = GetQueryString('search');
+   if (data!=null){
+     var psel = document.getElementById("keyword");
+     psel.value = data;
+  }
+</script>
+{% endblock %}

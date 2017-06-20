@@ -1,0 +1,116 @@
+{% extends "index.html" %}
+{% block title %}登录OMS{% endblock %}
+{% block content %}
+
+<script type="text/javascript">
+function altRows(id){
+	if(document.getElementsByTagName){  
+		
+		var table = document.getElementById(id);  
+		var rows = table.getElementsByTagName("tr"); 
+		 
+		for(i = 0; i < rows.length; i++){          
+			if(i % 2 == 0){
+				rows[i].className = "evenrowcolor";
+			}else{
+				rows[i].className = "oddrowcolor";
+			}      
+		}
+	}
+}
+
+window.onload=function(){
+	altRows('alternatecolor');
+}
+</script>
+
+
+
+<div class="row">
+
+<div class="col-md-10 col-sm-10 panel panel-default">
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li><a href="#">Library</a></li>
+  <li class="active">Data</li>
+</ol>
+<div class="panel-heading">
+<ol style="padding-left: 15px;">
+<h5><strong>主机详细信息列表</strong></h5>
+</ol>
+</div>
+
+<!--<div class="panel-heading">
+<ol class="breadcrumb">
+<div class="col-sm-1" style="padding-left: 0">
+<a class="btn btn-sm btn-primary " href="/cmdb/asset/add/"> 添加资产 </a>
+</div>
+<ol>
+</div>-->
+
+<div class="panel-heading">
+<div class="row">
+<ol class="breadcrumb">
+
+<div class="col-md-12">
+<!--<div class="col-sm-1" style="padding-left: 0">-->
+<a class="btn btn-sm btn-primary " href="/cmdb/asset/add/"> 添加资产 </a>
+<!--</div>-->
+</div>
+
+<div class="col-md-12">
+<table class="altrowstable" id="alternatecolor">
+<tr>
+	<th>主机名</th>
+        <th>IP地址</th>
+        <th>IDC</th>
+        <th>所属主机组</th>
+        <th>操作系统</th>
+        <th>cpu核数</th>
+        <th>内存</th>
+        <th>硬盘</th>
+        <th>操作</th>
+</tr>
+<tr>
+	<td>Text 2B</td><td>Text 2C</td><td>Text 2C</td><td>Text 2C</td><td>Text 2C</td><td>Text 2C</td>
+	<td>Text 1A</td><td>Text 1B</td><td>Text 1C</td>
+</tr>
+</tr>
+<tr>
+	<td>Text 3B</td><td>Textssssssssssssssssssssssssssssssssssssssisssssssssss</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td>
+	<td>Text 1A</td><td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+	<td>Text 3B</td><td>Text 3C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td>
+	<td>Text 1A</td><td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+	<td>Text 3B</td><td>Text 3C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td>
+	<td>Text 1A</td><td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+	<td>Text 4B</td><td>Text 4C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td>
+	<td>Text 1A</td><td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+       <td>Text 5B</td><td>Text 5C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td><td>Text 1C</td>
+	<td>Text 1A</td><td>Text 1B</td><td>
+
+<a class="btn btn-xs btn-info" href="/jasset/asset/edit/?id=1">编辑</a>
+<!--<a class="conn btn btn-xs btn-warning" value="1">连接</a>-->
+<a class="btn btn-xs btn-danger asset_del" value="/jasset/asset/del/?id=1">删除</a>
+
+         </td>
+</tr>
+</table>
+</div>
+</ol>
+</div>
+</div>
+
+   <div class="panel-body">
+   </div>
+ </div>
+</div>
+
+{% endblock %}

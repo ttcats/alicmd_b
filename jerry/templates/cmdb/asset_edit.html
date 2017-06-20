@@ -1,0 +1,337 @@
+{% extends "index.html" %}
+{% block title %}登录OMS{% endblock %}
+{% block content %}
+
+<div class="row">
+
+<div class="col-md-10 col-sm-10 panel panel-default">
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li><a href="/cmdb/asset">Asset</a></li>
+  <li class="active">Change</li>
+</ol>
+
+<div class="panel-heading">
+<ol style="padding-left: 15px;">
+<h5><strong>修改资产基本信息</strong></h5>
+</ol>
+
+<!--<div class="actions pull-right">
+<i class="fa fa-chevron-down"></i>
+</div>-->
+</div>
+
+
+<div class="panel-heading">
+<br>
+<form class="form-horizontal" id="asseteditForm"  action="/cmdb/asset/edit/?id={{ asset.id }}">
+  <div class="form-group">
+    <label for="hostname" class="col-sm-2 control-label">主机名<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      {% if asset.hostname %}
+      <input type="text" class="form-control" name="hostname" id="hostname" value="{{ asset.hostname }}">
+      {% else %}
+      <input type="text" class="form-control" name="hostname" id="hostname" placeholder="Hostname">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="host_ip" class="col-sm-2 control-label">主机IP<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      {% if asset.ip %}
+      <input type="text" class="form-control" name="host_ip" id="host_ip" value="{{ asset.ip }}">
+      {% else %}
+      <input type="text" class="form-control" name="host_ip" id="host_ip" placeholder="IP">
+      {% endif %}
+    </div>
+  </div>
+
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="remote_ip" class="col-sm-2 control-label">远控卡IP</label>
+    <div class="col-sm-8">
+      {% if asset.remote_ip %}
+      <input type="text" class="form-control" name="remote_ip" id="remote_ip" value="{{ asset.remote_ip }}">
+      {% else %}
+      <input type="text" class="form-control" name="remote_ip" id="remote_ip" placeholder="IP">
+      {% endif %}
+    </div>
+  </div>
+
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="mac" class="col-sm-2 control-label">MAC地址</label>
+    <div class="col-sm-8">
+      {% if asset.mac %}
+      <input type="text" class="form-control" name="mac" id="mac" value="{{ asset.mac }}">
+      {% else %}
+      <input type="text" class="form-control" name="mac" id="mac" placeholder="MacAddress">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="ssh_port" class="col-sm-2 control-label">SSH端口<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      {% if asset.port %}
+      <input type="text" class="form-control" name="ssh_port" id="ssh_port" value="{{ asset.port }}">
+      {% else %}
+      <input type="text" class="form-control" name="ssh_port" id="ssh_port" value="22">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="groups" class="col-sm-2 control-label">所属主机组</label>
+    <div class="col-sm-8">
+     <select multiple class="form-control" id="groups" name="groups">
+       {% for group in asset_group_all %}
+          {% if group.name in groups %}
+            <option value={{ group.id }} selected="selected">{{ group.name }}</option>
+          {% else %}
+            <option value={{ group.id }} >{{ group.name }}</option>
+          {% endif %}
+       {% endfor %}
+      </select>
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="idc" class="col-sm-2 control-label">机房</label>
+    <div class="col-sm-8">
+     <select class="form-control" id="idc" name="idc">
+      {% for idc in asset_idc_all %}
+        {% if asset.idc.name == idc.name %}
+          <option value={{ idc.id }} selected="selected">{{ idc.name }}</option>
+        {% else %}
+          <option value={{ idc.id }}>{{ idc.name }}</option>
+        {% endif %}
+      {% endfor %}
+      </select>
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="brand" class="col-sm-2 control-label">硬件厂商型号</label>
+    <div class="col-sm-8">
+      {% if asset.brand %}
+        <input type="text" class="form-control" name="brand" id="brand" value="{{ asset.brand }}">
+      {% else %}
+        <input type="text" class="form-control" name="brand" id="brand">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="cpu" class="col-sm-2 control-label">CPU</label>
+    <div class="col-sm-8">
+      {% if asset.cpu %}
+        <input type="text" class="form-control" name="cpu" id="cpu" value="{{ asset.cpu }}">
+      {% else %}
+        <input type="text" class="form-control" name="cpu" id="cpu">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="memory" class="col-sm-2 control-label">内存</label>
+    <div class="col-sm-8">
+      {% if asset.memory %}
+        <input type="text" class="form-control" name="memory" id="memory" value="{{ asset.memory }}">
+      {% else %}
+        <input type="text" class="form-control" name="memory" id="memory">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="disk" class="col-sm-2 control-label">硬盘</label>
+    <div class="col-sm-8">
+      {% if asset.disk %}
+        <input type="text" class="form-control" name="disk" id="disk" value="{{ asset.disk }}">
+      {% else %}
+        <input type="text" class="form-control" name="disk" id="disk">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="system_type" class="col-sm-2 control-label">系统类型</label>
+    <div class="col-sm-8">
+      {% if asset.system_type %}
+        <input type="text" class="form-control" name="system_type" id="system_type" value="{{ asset.system_type }}">
+      {% else %}
+        <input type="text" class="form-control" name="system_type" id="system_type">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="system_version" class="col-sm-2 control-label">系统版本号</label>
+    <div class="col-sm-8">
+      {% if asset.system_version %}
+        <input type="text" class="form-control" name="system_version" id="system_version" value="{{ asset.system_version }}">
+      {% else %}
+        <input type="text" class="form-control" name="system_version" id="system_version">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="system_arch" class="col-sm-2 control-label">系统平台</label>
+    <div class="col-sm-8">
+      {% if asset.system_arch %}
+        <input type="text" class="form-control" name="system_arch" id="system_arch" value="{{ asset.system_arch }}">
+      {% else %}
+        <input type="text" class="form-control" name="system_arch" id="system_arch">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="number" class="col-sm-2 control-label">资产编号</label>
+    <div class="col-sm-8">
+      {% if asset.number %}
+        <input type="text" class="form-control" name="number" id="number" value="{{ asset.number }}">
+      {% else %}
+        <input type="text" class="form-control" name="number" id="number">
+      {% endif %}
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="sn" class="col-sm-2 control-label">SN编号</label>
+    <div class="col-sm-8">
+      {% if asset.sn %}
+        <input type="text" class="form-control" name="sn" id="sn" value="{{ asset.sn }}">
+      {% else %}
+        <input type="text" class="form-control" name="sn" id="sn">
+      {% endif %}
+    </div>
+  </div>
+
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="cabinet" class="col-sm-2 control-label">机柜号</label>
+    <div class="col-sm-8">
+      {% if asset.cabinet %}
+        <input type="text" class="form-control" name="cabinet" id="cabinet" value="{{ asset.cabinet }}">
+      {% else %}
+        <input type="text" class="form-control" name="cabinet" id="cabinet">
+      {% endif %}
+    </div>
+  </div>
+
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="asset_type" class="col-sm-2 control-label">主机类型</label>
+    <div class="col-sm-8">
+     <select class="form-control" id="asset_type" name="asset_type">
+      {% for id,type in asset_type %}
+        {% if id == asset.asset_type %}
+          <option value="{{ id }}" selected="selected">{{ type }}</option>
+        {% else %}
+          <option value="{{ id }}" >{{ type }}</option>
+        {% endif %}
+      {% endfor %}
+     </select>
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="env" class="col-sm-2 control-label">运行环境</label>
+    <div class="col-sm-8">
+     <select class="form-control" id="asset_env" name="asset_env">
+      {% for id,env in asset_env %}
+        {% if id == asset.env %}
+          <option value="{{ id }}" selected="selected">{{ env }}</option>
+        {% else %}
+          <option value="{{ id }}" >{{ env }}</option>
+        {% endif %}
+      {% endfor %}
+     </select>
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="status" class="col-sm-2 control-label">机器状态</label>
+    <div class="col-sm-8">
+     <select class="form-control" id="asset_status" name="asset_status">
+      {% for id,status in asset_status %}
+        {% if id == asset.status %}
+          <option value="{{ id }}" selected="selected">{{ status }}</option>
+        {% else %}
+          <option value="{{ id }}" >{{ status }}</option>
+        {% endif %}
+      {% endfor %}
+     </select>
+    </div>
+  </div>
+
+<div class="hr-line-dashed"></div>
+<div class="form-group">
+  <label for="is_active" class="col-sm-2 control-label">是否激活<span class="red-fonts">*</span></label>
+      <div class="col-sm-8">
+       {% if asset.is_active %}
+        <label class="radio-inline"><input type="radio" name="is_active"  checked="" value="on"> 激活 </label>
+        <label class="radio-inline"><input type="radio" name="is_active"  value="off"> 禁用 </label>
+       {% else %}
+        <label class="radio-inline"><input type="radio" name="is_active"  value="on"> 激活 </label>
+        <label class="radio-inline"><input type="radio" name="is_active"  checked="" value="off"> 禁用 </label>
+       {% endif %}
+      </div>
+</div>
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <label for="comment" class="col-sm-2 control-label">备注</label>
+    <div class="col-sm-8">
+      {% if asset.comment %}
+        <input type="text" class="form-control" name="comment" id="comment" value="{{ asset.comment }}">
+      {% else %}
+        <input type="text" class="form-control" name="comment" id="comment">
+      {% endif %}
+    </div>
+  </div>
+
+
+
+<div class="hr-line-dashed"></div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-8">
+      <button class="btn btn-white" type="reset"> 重置 </button>
+      <input type="button" value=" 提交 " class="btn btn-primary"  onclick="submiteditForm('asseteditForm')"></input>
+    </div>
+  </div>
+
+</form>
+
+</div>
+<div class="panel-body">
+</div>
+
+
+</div>
+</div>
+
+{% endblock %}

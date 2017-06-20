@@ -1,0 +1,74 @@
+
+
+
+
+
+{% extends "index.html" %}
+{% block title %}OMS{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block content %}
+       <div class="row">
+            <div class="col-sm-12">
+               <!--breadcrumbs start -->
+               <ul class="breadcrumb">
+                     <li><a href="{% url 'index' %}">OMS</a>
+                     </li>
+                     <li>CMDB</li>
+                     <li class="active">Group</li>
+               </ul>
+            </div>
+               <label class="col-sm-2" style="text-align:right;">主机组详细信息列表</label>
+       </div>
+
+
+
+
+
+
+
+
+		{% endblock %}
+            </section>
+        </section>
+    </section>
+    <script src="/static/plugins/waypoints/waypoints.min.js"></script>
+    <script src="/static/js/application.js"></script>
+    <script src="/static/plugins/nanoScroller/jquery.nanoscroller.min.js"></script>
+    <script src="/static/plugins/countTo/jquery.countTo.js"></script>
+    <script src="/static/plugins/weather/js/skycons.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.resize.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.canvas.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.image.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.categories.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.crosshair.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.errorbars.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.fillbetween.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.navigate.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.pie.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.selection.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.stack.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.symbol.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.threshold.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.colorhelpers.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.time.min.js"></script>
+    <script src="/static/plugins/flot/js/jquery.flot.example.js"></script>
+    <script src="/static/plugins/morris/js/morris.min.js"></script>
+    <script src="/static/plugins/morris/js/raphael.2.1.0.min.js"></script>
+    <script src="/static/plugins/jvectormap/js/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="/static/plugins/jvectormap/js/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/static/plugins/todo/js/todos.js"></script>
+    <script>
+    $(document).ready(function() {
+        app.timer();
+        app.map();
+        app.weather();
+        app.morrisPie();
+    });
+    </script>   
+
+</body>
+
+</html>
