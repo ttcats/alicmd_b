@@ -23,13 +23,11 @@ urlpatterns = [
     url(r'^asset/edit/$', views.asset_edit, name='asset_edit'),
     url(r'^asset/del/$', views.asset_del, name='asset_del'),
     url(r'^asset/update/$', views.asset_update, name='asset_update'),
-
     url(r'^aliyunecs/$', views.aliyunecs, name='aliyunecs'),
+
     url(r'^idc/$', views.idc, name='idc'),
     url(r'^group/list/$', views.group_list, name='group_list'),
     url(r'^group/add/$', views.group_add, name='group_add'),
-
-
 
     url(r'^test/$', views.test, name='test'),
 ]

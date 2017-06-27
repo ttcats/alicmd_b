@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
 
     url(r'^cmdb/', include('cmdb.urls',namespace="cmdb")),
+    url(r'^disconf/', include('disconf.urls',namespace="disconf")),
+    url(r'^opera/', include('opera.urls',namespace="opera")),
 ]

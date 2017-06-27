@@ -70,29 +70,29 @@
                         <ul class="left_nav">
                             <li><a id="cmdb_group" href="{% url 'cmdb:aliyunecs' %}">AliYunECS管理</a>
                             </li>
-                            <li><a id="cmdb_asset" href="{% url 'cmdb:asset' %}">资产管理</a>
+                            <li><a id="cmdb_asset" href="{% url 'cmdb:asset' %}">IDC资产管理</a>
                             </li>
                             <li><a id="cmdb_idc" href="{% url 'cmdb:idc' %}">机房管理</a>
                             </li>
                         </ul>
                     </li>
                     <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>1</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>配置管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-                            <li><a href="{% url 'cmdb:test' %}">慢日志统计</a>
+                            <li><a href="{% url 'disconf:ansiblefile' %}">配置文件</a>
                             </li>
-                            <li><a href="{% url 'cmdb:test' %}">SQL 运行报告</a>
+                            <li><a href="{% url 'disconf:ansiblerun' %}">执行命令</a>
                             </li>
-                            <li><a href="{% url 'cmdb:test' %}">SQL 审核</a>
+                            <li><a href="{% url 'disconf:ansibleplaybookrun' %}">palybook</a>
                             </li>
                             <li><a href="{% url 'cmdb:test' %}">Table</a>
                             </li>
                         </ul>
                     </li>
                     <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>SSH 登陆</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>数据信息</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-                            <li><a href="{% url 'cmdb:test' %}">主机列表ssh</a>
+                            <li><a href="{% url 'opera:db_info' %}">数据库信息</a>
                             </li>
                             <li><a href="{% url 'cmdb:test' %}">主机列表</a>
                             </li>

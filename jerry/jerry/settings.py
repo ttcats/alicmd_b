@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cmdb',
+    'disconf',
+    'opera',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +154,4 @@ STATICFILES_DIRS = (
 
 LOGIN_URL = '/login/'
 APPEND_SLASH = True
+

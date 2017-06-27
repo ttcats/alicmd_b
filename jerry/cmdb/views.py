@@ -1,22 +1,78 @@
+# coding: utf-8
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect,HttpResponse
 from django.db.models import Q
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .Ansible_api import Runner
-import  json
+from .Aliyun_api import Aliyunapi
+import json
+import re
 
 from cmdb.models import Asset, IDC, AssetGroup, ASSET_TYPE, ASSET_STATUS, ASSET_ENV
 
 
 
+@login_required
 def aliyunecs(request):
-    return render(request, 'cmdb/aliyunecs.html')
+    if request.method == "GET":
+        print(request.GET.keys())
+        if request.GET.keys() == []:
+            return render(request, 'cmdb/aliyunecs.html')
+        else:
+            search = request.GET['search'] if 'search' in request.GET.keys() else ''
+            limit = request.GET['limit'] if 'limit' in request.GET.keys() else 20
+            offset = request.GET['offset'] if 'offset' in request.GET.keys() else 0
+            sort = request.GET['sort'] if 'sort' in request.GET.keys() else 'cpu'
+            order = request.GET['order'] if 'order' in request.GET.keys() else 'esc'
+            #print(offset)
+            limits = int(limit) + int(offset)
+            aliyunclass = Aliyunapi()
+            ecs_infos = aliyunclass.describeinstance()
+            ecs_disks = aliyunclass.describedisks()
+            messages,messages_search = [],[]
+            for ecs_info in ecs_infos:
+                disks, ips = [], []
+                hostname = ecs_info.values()[0][0]['InstanceName']
+                memory = round(int(ecs_info.values()[0][1]['Memory'])/1024.0)
+                cpu = ecs_info.values()[0][2]['Cpu']
+                os = ecs_info.values()[0][3]['OSName']
+                ecs_id = ecs_info.keys()[0]
+                for ecs_disk in ecs_disks:
+                    if ecs_id in ecs_disk.keys():
+                        disks.append(str(ecs_disk.values()[0][0])+'G_'+ecs_disk.values()[0][1])
+                ecs_ip = ecs_info.values()[0][4]['IpAddress'] + ecs_info.values()[0][5]['IpAddress']
+                status = ecs_info.values()[0][6]['Status']
+                expiredtime = ecs_info.values()[0][7]['ExpiredTime']
+                messages.append({"hostname":hostname,"ecs_ip":ecs_ip,"memory":memory,"cpu":cpu,"disk":disks,"os":os,"status":status,"expiredtime":expiredtime})
+            try:
+                if order == 'esc':
+                    messages.sort(key=lambda x:len(x[sort])if sort == 'disk' else x[sort])
+                elif order == 'desc':
+                    messages.sort(key=lambda x:len(x[sort])if sort == 'disk' else x[sort], reverse=True)
 
+                for message in messages:
+                    if search in str(message['hostname']) or search in str(message['ecs_ip']):
+                        message['cpu'] = str(message['cpu']) + '核'
+                        message['memory'] = str(message['memory']) + 'G'
+                        messages_search.append(message)
+
+                total = len(messages_search)
+                messages_all = messages_search[int(offset):int(limits)]
+                print(messages_all)
+                s = {"total":total,"rows":messages_all}
+                t = json.dumps(s,indent=4,cls=DjangoJSONEncoder)
+            except Exception as e:
+                t = []
+                print(e)
+
+            return HttpResponse(t)
+                
 def asset(request):
     search = request.GET.get('search')
     page = request.GET.get('page')

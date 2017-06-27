@@ -259,3 +259,59 @@ function submitFormSave(formId) {
 
 
 
+
+
+function ansiblerun(formId) {
+	var xmlHttp = createXmlHttp();
+	if(!xmlHttp) {
+		alert("您的浏览器不支持AJAX！");
+		return 0;
+	}
+        var F = document.getElementById(formId);
+        var id = F.id
+
+        var module = document.getElementById("module")
+        var module = module.options[module.selectedIndex]
+
+        var hosts = document.getElementById("hosts")
+        var hostlist = ''
+	for (i=0; i<hosts.length; i++) {
+		if (hosts.options[i].selected == true) {
+			hostlist += hosts.options[i].value + " ";
+		}
+	}
+        var ansiblescript = F.ansiblescript
+        if(hostlist=='')
+           {
+               alert('请选择主机！');
+               return false;
+           }
+        if(module.value=='')
+           {
+               alert('请选择模块！');
+               return false;
+           }
+	var e = document.getElementById(formId);
+	var url = e.action;
+
+	var postData = "module="+module.value+"&hostlist="+hostlist+"&ansiblescript="+ansiblescript.value;
+	xmlHttp.open("POST", url, true);
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+	xmlHttp.send(postData);
+	xmlHttp.onreadystatechange = function() {
+		if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			var PostAnswer=xmlHttp.responseText;
+			document.getElementById("ansible_callback").value = PostAnswer;
+			
+                        //if(PostAnswer=="Add.True") 
+                        //    {
+                        //    alert("添加成功！");
+                        //    }
+                        //else {
+                        //    alert(PostAnswer);
+                        //    return false;
+                        //    }
+		    }
+	        }
+}
+

@@ -1,0 +1,289 @@
+{% extends "index.html" %}
+{% block title %}资产管理{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="/static/css/bootstrap-editable.css">
+<script type="text/javascript" src="/static/js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-table-editable.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-editable.js"></script>
+<script type="text/javascript" src="/static/js/dba.js"></script>
+
+
+
+<div class="row">
+<div class="col-md-10 col-sm-10 panel panel-default">
+
+ <ol class="breadcrumb">
+     <li><a href="#">首页</a></li>
+     <li><a href="#">运维操作</a></li>
+     <li class="active">数据库列表</li>
+ </ol>
+
+<div class="panel-heading">
+<h5><strong>主机详细信息列表</strong></h5>
+</div>
+
+<div class="panel-heading">
+<div class="row">
+<ol class="breadcrumb">
+
+
+
+<div class="row">
+<div class="col-md-6">
+    <h4>MySQL信息</h4>
+        <div id="toolbar">
+            <button id="button_a" data-toggle="modal" data-target="#append" class="btn btn-default">append</button>
+            <button id="button_r" class="btn btn-default">remove</button>
+        </div>
+    <table id="dbs_table"></table>
+  </div>
+  <div class="col-md-6">
+    <h4>Databases信息</h4>
+     <div id="messages">
+        <button id="message_s" data-toggle="modal" data-target="#message" class="btn btn-default">messages</button>
+        <button id="message_u" type="button" data-loading-text="Loading..."  autocomplete="off" class="btn btn-default" >update</button>
+     </div>
+    <table id="db_table"></table>
+  </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-xs" id="append" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+        <h4 class="modal-title" id="myModalLabel">Create</h4>
+      </div>
+      <div class="modal-body">
+       <form class="form-horizontal" method="POST" id="dbcreate" action="/opera/dbinfo_change/">
+
+
+        <div class="form-group">
+          <label for="inputatdescribe" class="col-sm-2 control-label">组ID:</label>
+          <div class="col-sm-10">
+            <input type="text" name="group_id" id="group_id" class="form-control" >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputatdescribe" class="col-sm-2 control-label">主机名:</label>
+          <div class="col-sm-10">
+            <input type="text" name="hostname" id="hostname" class="form-control" >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputatdescribe" class="col-sm-2 control-label">端口:</label>
+          <div class="col-sm-10">
+            <input type="text" name="port" id="port" class="form-control" >
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="inputatdescribe" class="col-sm-2 control-label">主:</label>
+          <div class="col-sm-10">
+            <input type="text" name="m_hostname" id="m_hostname" class="form-control" >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputatdescribe" class="col-sm-2 control-label">主端口:</label>
+          <div class="col-sm-10">
+            <input type="text" name="m_port" id="m_port" class="form-control" >
+          </div>
+        </div>
+
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onClick="dbcreate('dbcreate')">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="message" tabindex="-1" role="dialog" aria-labelledby="message" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!--<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="message">Messages</h4>
+      </div>-->
+      <div class="modal-body">
+         <table id="messages_table"></table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="panel-body"></div>
+</div>
+</div>
+
+
+
+<script>
+$(function () {
+    $('#db_table').bootstrapTable({
+        idField:'group_id',
+        url: '/opera/dbtable_info/',
+        //method: 'post',
+        columns:[
+                //{field:'group_id',title:'Group_id'},
+                {field:'hostname',title:'Hostname'},
+                {field:'port',title:'Port'},
+                {field:'db',title:'Database'},
+                //{field:'m_hostname',title:'Master'},
+                {field:'info',title:'Info',editable:{type:'text'}},
+                ],
+        sidePagination:'server',
+        search: true,
+        toolbar:'#messages',
+        showToggle:true,
+        showColumns:true,
+        pagination:"true",
+        showRefresh:"true",
+        pageSize:"20",
+        pageList:"[20, 50, 100]",
+        height:"700",
+        onEditableSave: function (field, row, oldValue, $el){
+            $.ajax({
+                type: "post",
+                url: "/opera/dbtable_info/",
+                dataType: "text",
+                data: { strJson: JSON.stringify(row) },
+                success: function (msg) {
+                    if ( msg == "success" ){
+                        alert("success");
+                    }
+                 },
+                 error: function (e){
+                     alert(e);
+                 },
+                });
+        }
+    });
+});
+
+$(function () {
+    $('#dbs_table').bootstrapTable({
+        idField:'hostname',
+        url: '/opera/db_info/',
+        //method: 'post',
+        columns:[
+                {field:'state',checkbox:true},
+                {field:'hostid',title:'hostid',visible:false},
+                //{field:'hostid',title:'hostid'},
+                {field:'group_id',title:'GroupID'},
+                {field:'hostname',title:'Hostname'},
+                {field:'port',title:'Port',editable:{type:'text'}},
+                {field:'m_hostname',title:'M_Hostname'},
+                {field:'m_port',title:'M_Port'},
+                ],
+        sidePagination:'server',
+        search: true,
+        toolbar:'#toolbar',
+        //toolbarAlign:'left',
+        //showToggle:true,
+        //showColumns:true,
+        pagination:"true",
+        showRefresh:"true",
+        pageSize:"20",
+        pageList:"[20, 50, 100]",
+        height:"700",
+
+        onEditableSave: function (field, row, oldValue, $el){
+            $.ajax({
+                type: "get",
+                url: "/opera/dbinfo_change/",
+                dataType: "text",
+                data: { strJson: JSON.stringify(row) },
+                success: function (msg) {
+                    if ( msg == "success" ){
+                        alert("success");
+                    }
+                 },
+                 error: function (e){
+                     alert(e);
+                 },
+                });
+        }
+    });
+    $('#button_r').click(function () {
+            var ids = $.map($('#dbs_table').bootstrapTable('getSelections'), function (row) {
+                return row.hostid;
+            });
+            $.ajax({
+                  type: "get",
+                  url: "/opera/dbinfo_remove/",
+                  dataType: "text",
+                  data:{field:'hostid',values:ids},
+                  success: function (msg) {
+                      if ( msg == "success" ){
+                          $('#dbs_table').bootstrapTable('remove', {field:'hostid',values:ids});
+                      } else if ( msg == "notchoice" ){
+                          alert("请选择要删除主机!");
+                      } else if ( msg == "err" ){
+                          alert("系统故障!");
+                      }
+                  },
+            });
+        });
+});
+
+$(function () {
+    $('#messages_table').bootstrapTable({
+        idField:'hostname',
+        url: '/opera/db_messages/',
+        columns:[
+                {field:'message',title:'Message'},
+                {field:'time',title:'Time'},
+                ],
+        sidePagination:'server',
+        search: true,
+        //showToggle:true,
+        //showColumns:true,
+        pagination:"true",
+        showRefresh:"true",
+        pageSize:"20",
+        pageList:"[20, 50, 100]",
+        height:"400",
+        });
+});
+
+
+$(function (){
+    $('#message_u').on('click',function(){
+    var $btn = $(this).button('loading');
+    $.ajax({
+        url:"/opera/dbinfo/",
+        type:"POST",
+        data:{sql:"te"},
+        dataType:"text",
+        success:function(msg){
+                $btn.button('reset')
+            if (msg !='success'){
+                alert(msg);
+                };
+            }
+        });
+    });
+});
+
+
+
+</script>
+
+
+
+{% endblock %}

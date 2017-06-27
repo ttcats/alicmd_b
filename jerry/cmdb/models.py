@@ -1,3 +1,4 @@
+# coding: utf-8
 from __future__ import unicode_literals
 
 from django.db import models
@@ -7,8 +8,8 @@ from django.db import models
 
 ASSET_ENV = (
     (0, u"--------"),
-    (1, U'生产环境'),
-    (2, U'测试环境')
+    (1, u'生产环境'),
+    (2, u'测试环境')
     )
 
 ASSET_STATUS = (

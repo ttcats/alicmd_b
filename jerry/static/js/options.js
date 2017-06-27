@@ -167,3 +167,37 @@ function onSearches(selectID,row){
 
 
 
+function getService(){
+	var module=document.getElementById("module");
+	var module = module.options[module.selectedIndex];
+	var ansiblescript = document.getElementById("ansiblescript");
+	if ( module.value == "copy" ){
+		ansiblescript.placeholder = 'like this: src=/root/a.sh dest=/tmp/';
+	} else if ( module.value == "file" ){
+		ansiblescript.placeholder = 'like this: dest=/tmp/t.sh mode=755 owner=root group=root';
+	} else if ( module.value == "cron" ){
+		ansiblescript.placeholder = 'like this: name="custom job" minute=*/3 hour=* day=* month=* weekday=* job="/usr/sbin/ntpdate 172.16.254.139"';
+	} else if ( module.value == "group" ){
+		ansiblescript.placeholder = 'like this: gid=2014 name=nolinux';
+	} else if ( module.value == "user" ){
+		ansiblescript.placeholder = 'like this: name=nolinux groups=nolinux state=present';
+	} else if ( module.value == "yum" ){
+		ansiblescript.placeholder = 'like this: state=present name=httpd';
+	} else if ( module.value == "service" ){
+		ansiblescript.placeholder = 'like this: name=puppet state=restarted enabled=yes';
+	} else if ( module.value == "script" ){
+		ansiblescript.placeholder = 'like this: /root/a.sh';
+	} else if ( module.value == "ping" ){
+		ansiblescript.placeholder = '无需填写';
+	} else if ( module.value == "command" ){
+		ansiblescript.placeholder = 'like this: hostname';
+	} else if ( module.value == "raw" ){
+		ansiblescript.placeholder = 'like this: hostname|tee';
+	} else if ( module.value == "get_url" ){
+		ansiblescript.placeholder = 'like this: url=http://10.1.1.116/favicon.ico dest=/tmp';
+	} else if ( module.value == "synchronize" ){
+		ansiblescript.placeholder = 'like this: src=/root/a dest=/tmp/ compress=yes';
+	} else {
+		ansiblescript.placeholder = '';
+	}
+};

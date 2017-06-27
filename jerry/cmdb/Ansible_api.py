@@ -183,4 +183,4 @@ class Runner(object):
 
 if __name__ == '__main__':
     t = Runner()
-    print(t.run('10.7.253.14', 'setup', ''))
+    print(t.run('10.7.253.14', 'ping', ''))
