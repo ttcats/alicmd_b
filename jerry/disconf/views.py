@@ -32,5 +32,23 @@ def ansible_run(request):
         return HttpResponse(info)
 
 
-def ansible_playbook_run(request):
-    return render(request, 'disconf/ansibleplaybookrun.html', locals())
+def ansible_job_run(request):
+    return render(request, 'disconf/ansiblejobrun.html', locals())
+
+@csrf_exempt
+@login_required
+def ansible_job_add(request):
+    if request.method == 'GET':
+        jobtypes = ['run','status','run']
+        playbooks = ['main.yml','iptable.yml','init.yml']
+        return render(request, 'disconf/ansiblejobadd.html', locals())
+    else:
+        print(request.POST)
+        jobname = request.POST.get('jobname','')
+        project = request.POST.get('project','')
+        playbook = request.POST.get('playbook','')
+        forks = request.POST.get('forks','')
+        jobtype = request.POST.get('jobtype','')
+        inventory = request.POST.get('inventory','')
+        print(forks)
+        return HttpResponse('sss')

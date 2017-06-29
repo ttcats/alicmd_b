@@ -1,0 +1,85 @@
+{% extends "index.html" %}
+{% block title %}执行命令{% endblock %}
+{% block content %}
+
+
+<div class="row">
+
+<div class="col-md-10 col-sm-10 panel panel-default">
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li><a href="/cmdb/asset">Asset</a></li>
+  <li class="active">Run</li>
+</ol>
+
+<div class="panel-heading">
+<h5><strong>Job Templates</strong></h5>
+</div>
+
+<div class="panel-heading">
+
+<div class="row">
+<ol class="breadcrumb">
+
+<div class="col-md-12">
+<!--<div class="col-sm-1" style="padding-left: 0">-->
+<a class="btn btn-sm btn-primary" href="{% url 'disconf:ansiblejobadd' %}"> + ADD</a>
+</div>
+
+<div class="col-md-12">
+<div class="input-group">
+  <span class="input-group-addon">Name</span>
+  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+  <span class="input-group-addon">
+     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+  </span>
+</div>
+
+<table class="table table-striped">
+<tr>
+        <th>Name</th>
+        <th class="col-md-3">Actions</th>
+</tr>
+
+<tr>
+        <td>Text 1C</td><td>Text 1C</td>
+</tr>
+<tr>
+        <td>Text 1B</td><td>Text 1C</td>
+</tr>
+
+<tr>
+        <td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+        <td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+        <td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+        <td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+        <td>Text 1B</td><td>Text 1C</td>
+</tr>
+<tr>
+        <td>Text 1B</td><td>Text 1C</td>
+</tr>
+</table>
+
+
+</div>
+</ol>
+</div>
+</div>
+
+<div class="panel-body">
+
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}

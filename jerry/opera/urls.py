@@ -25,4 +25,7 @@ urlpatterns = [
     url(r'^dbinfo_remove/$', views.dbinfo_remove, name='dbinfo_remove'),
     url(r'^dbinfo_change/$', views.dbinfo_change, name='dbinfo_change'),
     url(r'^db_messages/$', views.db_messages, name='db_messages'),
+
+    url(r'^db_opera/$', views.db_opera, name='db_opera'),
+    url(r'^db_query/$', views.db_query, name='db_query'),
 ]

@@ -315,3 +315,72 @@ function ansiblerun(formId) {
 	        }
 }
 
+
+
+
+function ansiblejob(formId) {
+	var xmlHttp = createXmlHttp();
+	if(!xmlHttp) {
+		alert("您的浏览器不支持AJAX！");
+		return 0;
+	}
+        var F = document.getElementById(formId);
+        var id = F.id
+
+        var jobtype = document.getElementById("jobtype")
+        var jobtype = jobtype.options[jobtype.selectedIndex]
+
+        var playbook = document.getElementById("playbook")
+        var playbook = playbook.options[playbook.selectedIndex]
+
+        var jobname = F.jobname
+        var inventory = F.inventory
+        var project = F.project
+        var forks = F.forks
+        if(jobname.value=='')
+           {
+               alert('请输入Job名！');
+               return false;
+           }
+        if(jobtype.value=='')
+           {
+               alert('请选择模块！');
+               return false;
+           }
+        if(inventory.value=='')
+           {
+               alert('请输入host路径！');
+               return false;
+           }
+        if(project.value=='')
+           {
+               alert('请输入项目名！');
+               return false;
+           }
+        if(playbook.value=='')
+           {
+               alert('请选择playbook！');
+               return false;
+           }
+	var e = document.getElementById(formId);
+	var url = e.action;
+
+	var postData = "jobname="+jobname.value+"&jobtype="+jobtype.value+"&inventory="+inventory.value+"&project="+project.value+"&playbook="+playbook.value+"&forks="+forks.value;
+	xmlHttp.open("POST", url, true);
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+	xmlHttp.send(postData);
+	xmlHttp.onreadystatechange = function() {
+		if(xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			var PostAnswer=xmlHttp.responseText;
+                        if(PostAnswer=="Add.True") 
+                            {
+                            alert("添加成功！");
+                            }
+                        else {
+                            alert(PostAnswer);
+                            return false;
+                            }
+		    }
+	        }
+}
+

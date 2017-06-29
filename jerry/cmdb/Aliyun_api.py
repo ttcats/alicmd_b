@@ -10,8 +10,8 @@ import json
 class Aliyunapi(object):
     def __init__(self):
         self.clt = client.AcsClient(
-            'xxxxxxxxxxxx',
-            'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+            AccessKey,
+            AccessSecret,
             'cn-hangzhou')
 
     def request_api(self, request, *values):

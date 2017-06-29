@@ -20,6 +20,7 @@ urlpatterns = [
     #url(r'^$', views.cmdb, name='cmdb'),
     url(r'^ansible/file/$', views.ansible_file, name='ansiblefile'),
     url(r'^ansible/run/$', views.ansible_run, name='ansiblerun'),
-    url(r'^ansible/playbook/run/$', views.ansible_playbook_run, name='ansibleplaybookrun'),
+    url(r'^ansible/job/run/$', views.ansible_job_run, name='ansiblejobrun'),
+    url(r'^ansible/job/add/$', views.ansible_job_add, name='ansiblejobadd'),
 
 ]

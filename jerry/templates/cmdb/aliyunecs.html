@@ -29,7 +29,8 @@
 <div class="panel-heading">
  <div class="row">
   <div class="col-md-12">
-    <table id="db_table"></table>
+    <div id='aliecs_update'><button id="ecs_up" type="button" data-loading-text="Loading..."  autocomplete="off" class="btn btn-default" >update</button></div>
+    <table id="ecs_table"></table>
   </div>
  </div>
 </div>
@@ -42,7 +43,7 @@
 
 <script>
 $(function () {
-    $('#db_table').bootstrapTable({
+    $('#ecs_table').bootstrapTable({
         //idField:'group_id',
         url: '/cmdb/aliyunecs/',
         //method: 'post',
@@ -60,7 +61,7 @@ $(function () {
                 ],
         sidePagination:'server',
         search: true,
-        //toolbar:'#messages',
+        toolbar:'#aliecs_update',
         //showToggle:true,
         cache: true,
         showColumns: true,
@@ -102,6 +103,25 @@ $(function () {
         }
     });
 });
+
+$(function (){
+    $('#ecs_up').on('click',function(){
+    var $btn = $(this).button('loading');
+    $.ajax({
+        url:"/cmdb/dbinfo/",
+        type:"POST",
+        data:{sql:"te"},
+        dataType:"text",
+        success:function(msg){
+                $btn.button('reset')
+            if (msg !='success'){
+                alert(msg);
+                };
+            }
+        });
+    });
+});
+
 </script>
 
 

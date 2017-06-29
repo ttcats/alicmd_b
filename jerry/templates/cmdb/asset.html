@@ -39,14 +39,6 @@ window.onload=function(){
 </ol>
 </div>
 
-<!--<div class="panel-heading">
-<ol class="breadcrumb">
-<div class="col-sm-1" style="padding-left: 0">
-<a class="btn btn-sm btn-primary " href="/cmdb/asset/add/"> 添加资产 </a>
-</div>
-<ol>
-</div>-->
-
 <div class="panel-heading">
 <div class="row">
 <ol class="breadcrumb">
@@ -54,7 +46,7 @@ window.onload=function(){
 <div class="col-md-12">
 <!--<div class="col-sm-1" style="padding-left: 0">-->
 <a class="btn btn-sm btn-primary" href="/cmdb/asset/add/"> 添加资产 </a>
-<input type="submit" class="keyword" id="btn" value="提交" onclick="Keyword(keyword.value);return false;" >
+<input type="button" class="keyword btn btn-sm btn-primary" id="btn" value="提交" onclick="Keyword(keyword.value);return false;" >
 <input type="text" class="keyword" id="keyword"  onkeypress="if(event.keyCode==13) {btn.click();return false;}" placeholder="Search" value="">
 <!--</div>-->
 </div>

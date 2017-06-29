@@ -1,0 +1,124 @@
+{% extends "index.html" %}
+{% block title %}执行命令{% endblock %}
+{% block content %}
+
+
+<div class="row">
+
+<div class="col-md-10 col-sm-10 panel panel-default">
+<ol class="breadcrumb">
+  <li><a href="#">Home</a></li>
+  <li><a href="/cmdb/asset">Asset</a></li>
+  <li class="active">AddJob</li>
+</ol>
+
+<div class="panel-heading">
+<h5><strong>New Job Template</strong></h5>
+</div>
+
+<div class="panel-heading">
+<div class="row">
+
+<form class="form-horizontal" id="ansiblejobform"  action="/disconf/ansible/job/add/">
+
+ <div class="col-md-12">
+  <div class="form-group col-md-6">
+    <label for="jobname" class="col-sm-2 control-label">NAME<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="jobname" id="jobname" placeholder="Jobname">
+    </div>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="jobtype" class="col-sm-2 control-label">JOB TYPE<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+     <select class="form-control" id="jobtype" name="jobtype">
+          <option value="">------</option>
+        {% for jobtype in jobtypes %}
+          <option value="{{ jobtype }}">{{ jobtype }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+ </div>
+
+ <div class="col-md-12">
+  <div class="form-group col-md-6">
+    <label for="inventory" class="col-sm-2 control-label">INVENTORY<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="inventory" id="inventory" value="/etc/ansible/hosts">
+    </div>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="project" class="col-sm-2 control-label">PROJECT<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="project" id="project" >
+    </div>
+  </div>
+  </div>
+
+ <div class="col-md-12">
+  <div class="form-group col-md-6">
+    <label for="playbook" class="col-sm-2 control-label">PLAYBOOK<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+     <select class="form-control" id="playbook" name="playbook">
+          <option value="">------</option>
+       {% for playbook in playbooks %}
+          <option value={{ playbook }}>{{ playbook }}</option>
+       {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="forks" class="col-sm-2 control-label">FORKS</label>
+    <div class="col-sm-8">
+      <input type="number" class="form-control" name="forks" id="forks" min="1" max="10">
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+<!-- <div class="col-md-12">
+  <div class="form-group col-md-6">
+    <label for="host_ip" class="col-sm-2 control-label">主机IP<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="host_ip" id="host_ip" placeholder="IP">
+    </div>
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="host_ip" class="col-sm-2 control-label">主机IP<span class="red-fonts">*</span></label>
+    <div class="col-sm-8">
+      <input type="text" class="form-control" name="host_ip" id="host_ip" placeholder="IP">
+    </div>
+  </div>
+  </div>-->
+
+  <div class="col-md-12">
+  <div class="form-group">
+    <div class="col-sm-offset-1 col-sm-8">
+      <button class="btn btn-white" type="reset"> 重置 </button>
+      <input type="button" value=" 提交 " class="btn btn-primary"  onclick="ansiblejob('ansiblejobform')"></input>
+    </div>
+  </div>
+  </div>
+
+</form>
+
+</div>
+</div>
+
+<div class="panel-body">
+
+</div>
+
+</div>
+</div>
+
+
+{% endblock %}

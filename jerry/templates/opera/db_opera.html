@@ -1,0 +1,175 @@
+{% extends "index.html" %}
+{% block title %}资产管理{% endblock %}
+{% block content %}
+
+
+
+<script type="text/javascript" src="/static/js/dba.js"></script>
+<style type="text/css">
+#con tr th {text-align:center;vertical-align:middle;}
+#con tr td {text-align:center;vertical-align:middle;}
+
+#export table{border-collapse:collapse;border-spacing:0;border-left:1px solid #888;border-top:1px solid #888;}
+#export td{border-right:1px solid #888;border-bottom:1px solid #888;padding:5px 15px;}
+th{border-right:1px solid #888;border-bottom:1px solid #888;padding:5px 15px;}
+th{font-weight:bold;background:#66CC99;}
+</style>
+
+
+<script>
+function change_select(){
+    var db = selectdb.value;
+    $.ajax(
+            {
+              url:"/opera/db_opera/",
+              type:"POST",
+              data:{db:db},
+              dataType:"json",
+              //cache:false,
+              success:function(msg){
+                        //alert(msg);
+                        var html = "";
+                        $("#databas").empty();
+                        for( ms in msg ){
+                                html += "<option value='"+msg[ms]+"'>"+msg[ms]+"</option>";
+                       }
+                        $("#databas").append(html);
+                   }
+             }
+        )
+};
+
+
+function submitSQL(){
+    var db = selectdb.value;
+    var databa = databas.value;
+    var sql = importsql.value;
+    if(db==''){
+        alert('请选择实例!');
+        return false;
+    }
+    if(databa==''){
+        alert('请选择数据库!');
+        return false;
+    }
+    if(sql==''){
+        alert('请输入SQL!');
+        return false;
+    }
+    $.ajax(
+        {
+            url:"/opera/db_query/",
+            type:"POST",
+            data:{db:db,databa:databa,sql:sql},
+            dataType:"html",
+            beforeSend:function(){
+                $("#exec").attr({disabled:"disabled"});
+                $("#exec_kill").removeAttr("disabled");
+                $("#export").html('<img src="/static/img/loading.gif"/>');
+            },
+            success:function(msg){
+                //alert(msg);
+                $("#export").html(msg);
+            },
+            complete:function(){
+                $("#exec").removeAttr("disabled");
+                //$("#exec_kill").attr({disabled:"disabled"});
+            },
+        }
+    ) 
+};
+
+function submitKill(){
+    var db = selectdb.value;
+    var sql = importsql.value;
+    $.ajax({
+        url:"/opera/sql_kill/",
+        type:"POST",
+        data:{db:db,sql:sql},
+        dataType:"text",
+        success:function(msg){
+            if (msg !='sucess'){
+                 alert(msg);
+            };
+        }
+    })
+
+}
+
+</script>
+
+
+<div class="row">
+
+<div class="col-md-10 col-sm-10 panel panel-default">
+
+ <ol class="breadcrumb">
+     <li><a href="#">首页</a></li>
+     <li><a href="#">运维操作</a></li>
+     <li class="active">数据库列表</li>
+ </ol>
+
+
+<div class="panel-heading">
+
+     <div>
+        <table width=74%>
+                <td><h3>数据库操作</h3></td>
+                <td align='right'>
+                <button type="button" id="exec_kill" disabled="disabled" class="btn btn-primary btn-sm" onClick="submitKill()">Kill</button>
+                <button type="button" id="exec" class="btn btn-primary btn-sm" onClick="submitSQL()">Exec</button>
+                </td>
+        </table>
+     </div>
+
+
+    <div class="row">
+        <div class="col-sm-4 col-md-3">
+
+                <div class="form-group">
+                    <select class="form-control" name="selectdb" id="selectdb" onchange="change_select()">
+                        <option value="">————实例选择————</option>
+                        {% for db in dbs %}
+                            <option value="{{ db }}">{{ db }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select multiple="multiple" class="form-control" size="30" name="databas" id="databas" >
+                       <!--<option value="*">————库————</option>-->
+                    </select>
+                </div>
+        </div>
+
+        <div class="col-sm-4 col-md-6">
+                <div class="form-group">
+                    <textarea class="form-control" id="importsql" rows="12" placeholder="输入SQL"></textarea>
+                </div>
+                <div class="form-group" id="export"style="border-style:ridge;height:300px;overflow: auto;padding:0">
+                    <!--<textarea class="form-control" rows="14" id="export" readonly="readonly" placeholder="输出"></textarea>-->
+                </div>
+        </div>
+
+
+
+
+    </div>
+    </div>
+   <div class="panel-body">
+   </div>
+
+
+
+</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+        <script src="/static/datatable/jquery-3.0.0.min.js"></script>
+        <link href="/static/datatable/jquery.dataTables.min.css" rel="stylesheet" />
+        <script src="/static/datatable/jquery.dataTables.min.js"></script>
+
+{% endblock %}
