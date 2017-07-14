@@ -73,6 +73,7 @@ def aliyunecs(request):
 
             return HttpResponse(t)
                 
+@login_required
 def asset(request):
     search = request.GET.get('search')
     page = request.GET.get('page')
@@ -186,6 +187,7 @@ def asset_edit(request):
 
 
 
+@login_required
 def asset_del(request):
     asset_id = request.GET.get('id','')
     print(asset_id)
@@ -196,6 +198,7 @@ def asset_del(request):
         print(e)
         return HttpResponse('error')
     
+@login_required
 def asset_update(request):
     print(request.GET)
     asset_id = request.GET.get('id')
