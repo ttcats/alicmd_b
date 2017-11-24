@@ -10,9 +10,9 @@ import json
 class Aliyunapi(object):
     def __init__(self):
         self.clt = client.AcsClient(
-            AccessKey,
-            AccessSecret,
-            RegionId)
+            'AccessKey',
+            'AccessSecret',
+            'cn-hangzhou')
 
     def request_api(self, request, *values):
         if values:

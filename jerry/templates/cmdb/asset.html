@@ -85,6 +85,7 @@ window.onload=function(){
         <td style="width: 10%">
           <a class="btn btn-xs btn-info" href="/cmdb/asset/edit/?id={{ asset.id }}">编辑</a>
           <a class="btn btn-xs btn-warning" onclick="Updateasset({{ asset.id }})" >更新</a>
+          <a value="{{ asset.id }}" class="conn btn btn-xs btn-warning">连接</a>
           <a class="btn btn-xs btn-danger" onclick="Delasset({{ asset.id }})" value="/cmdb/asset/del/?id={{ asset.id }}">删除</a>
         </td>
 </tr>
@@ -152,6 +153,77 @@ window.onload=function(){
    </div>
  </div>
 </div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.conn').click(function(){
+        var url='{% url "role_get" %}?id=' + $(this).attr('value'); // 获取用户有权限的角色
+        var href = $(this).attr('href');
+        var new_url = '{% url "terminal" %}?id=' + $(this).attr('value') + '&role='; // webterminal socket url
+        //var hostname = $(this).closest('tr').find('.hostname a')[0].innerHTML;
+        var hostname = 'tset';
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: {},
+            success: function(data){
+                var dataArray = data.split(',');
+                if (data == 'error' || data == '' || data == null || data == undefined){
+                    layer.alert('没有授权系统用户')
+                }
+                else if (dataArray.length == 1 && data != 'error' && navigator.platform == 'Win32'){
+                     window.open(new_url+data, "_blank");
+                }  else if (dataArray.length == 1 && data != 'error'){
+                    window.open(new_url+data, '_blank');
+                }
+                else {
+                    aUrl = '';
+                    $.each(dataArray, function(index, value){
+                        aUrl += '<a onclick="windowOpen(this); return false" class="btn btn-xs btn-primary newa" href=' + new_url + value + ' value=' + hostname +  '>' + value  + '</a> '
+                    });
+                    console.log(aUrl);
+                    layer.alert(aUrl, {
+                        skin: 'layui-layer-molv',
+                        title: '授权多个系统用户，请选择一个连接',
+                        shade: false,
+                        closeBtn: 0
+                    })
+                }
+           }
+        });
+        return false
+    });
+});
+
+function windowOpen(a){
+    var new_url = $(a).attr('href');
+    var hostname = $(a).attr('value');
+    var title = 'Jumpserver Web Terminal - ' + '<span class="text-info"> '+ hostname +'</span>';
+    if (navigator.platform == 'Win32'){
+       window.open(new_url, '_blank')
+
+    } else {
+        window.open(new_url, '_blank');
+    }
+
+    return false
+}
+
+function windowOpenExec(a){
+    var new_url = $(a).attr('href');
+    var title = 'Jumpserver Exec Terminal';
+         layer.open({
+         type: 2,
+         title: title,
+         maxmin: true,
+         area: ['725px', '600px'],
+         shade: false,
+         content: new_url
+    });
+    return false
+}
+</script>
 
 <script type="text/javascript">
    var data = GetQueryString('search');

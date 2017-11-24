@@ -233,14 +233,47 @@
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Office locations</h3>
+                                <h3 class="panel-title">Ansible 主机检测</h3>
                                 <div class="actions pull-right">
                                     <i class="fa fa-chevron-down"></i>
                                     <i class="fa fa-times"></i>
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <div class="map" id="map" style="height: 300px;"></div>
+                                <div class="col-md-8" id="ansiblecheck" style="height: 300px;"></div>
+                                <div class="col-md-4" id="checklist" style="height: 300px;">
+ <table class="table" id="ansibleinfo">
+  <caption><h4>最新运行情况</h4></caption>
+  <thead>
+    <tr>
+      <th>主机</th>
+      <th>检测状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!--<tr>
+      <td>Tanmay</td>
+      <td>Bangalore</td>
+    </tr>
+    <tr>
+      <td>Sachin</td>
+      <td>Mumbai</td>
+    </tr>
+    <tr>
+      <td>Sachin</td>
+      <td>Mumbai</td>
+    </tr>
+    <tr>
+      <td>Sachin</td>
+      <td>Mumbai</td>
+    </tr>
+    <tr>
+      <td>Sachin</td>
+      <td>Mumbai</td>
+    </tr>-->
+  </tbody>
+</table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -419,6 +452,95 @@ var timeTicket = setInterval(function (){
    });
     
 },2000)
+});
+</script>
+
+<script type="text/javascript">
+require.config({
+    paths: {
+        echarts: 'http://echarts.baidu.com/build/dist'
+        }
+        });
+require(
+    [
+        'echarts',
+        'echarts/chart/pie', 
+    ],
+function (ecs) {
+    var myChart = ecs.init(document.getElementById('ansiblecheck'));
+var option = {
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient : 'vertical',
+        x : 'left',
+        data:['Success','Failed','Unknown']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    series : [
+        {
+            name:'访问来源',
+            type:'pie',
+            radius : ['50%', '70%'],
+            itemStyle : {
+                normal : {
+                    label : {
+                        show : false
+                    },
+                    labelLine : {
+                        show : false
+                    }
+                },
+                emphasis : {
+                    label : {
+                        show : true,
+                        position : 'center',
+                        textStyle : {
+                            fontSize : '30',
+                            fontWeight : 'bold'
+                        }
+                    }
+                }
+            },
+            data:[
+                {value:335, name:'Success'},
+                {value:310, name:'Failed'},
+                {value:234, name:'Unknown'},
+            ]
+        }
+    ]
+};
+
+    myChart.showLoading();
+    $.getJSON("/proc/ansiblecheck",function(result,date){
+        $.each(result[1],function(n,vat){
+            option.series[0].data[n].value = vat;
+        });
+        function getRow(row) {
+            var tr = $('<tr></tr>');
+            for(var i in row) {
+                tr.append('<td>' + row[i] + '</td>');
+            }
+            return tr;
+        }
+        var tbody = $('<tbody></tbody>');
+        for(var i = 0; i < 5; i ++ ){
+            tbody.append(getRow(result[0][i]));
+            //alert(result[0][i]);
+        }
+        $('#ansibleinfo tbody').replaceWith(tbody);
+    myChart.hideLoading();
+    myChart.setOption(option,true);
+   });
 });
 </script>
 
