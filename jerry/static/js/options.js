@@ -55,8 +55,8 @@ function SaveOps(FormID) {
 }
 
 // 删除表单
-function Delasset(id) {
-    var a=confirm('确定删除该条配置？');
+function Delasset(id,hostname) {
+    var a=confirm('确定删除主机'+hostname+'信息?');
     if (a == true)
     { $.get('/cmdb/asset/del/',
       {id:id},

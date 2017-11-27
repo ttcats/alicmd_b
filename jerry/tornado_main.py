@@ -13,7 +13,7 @@ import tornado.httpserver
 import tornado.ioloop
 import tornado.web
 import tornado.wsgi
-import tornado.websocket
+#import tornado.websocket
 
 from tornado.options import options, define
 

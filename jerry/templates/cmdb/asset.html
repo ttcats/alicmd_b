@@ -82,11 +82,11 @@ window.onload=function(){
         {% else %}
         <a style="color: red">{{ asset.is_active }}</a></td>
         {% endif %}
-        <td style="width: 10%">
+        <td style="width: 8%">
           <a class="btn btn-xs btn-info" href="/cmdb/asset/edit/?id={{ asset.id }}">编辑</a>
           <a class="btn btn-xs btn-warning" onclick="Updateasset({{ asset.id }})" >更新</a>
           <a value="{{ asset.id }}" class="conn btn btn-xs btn-warning">连接</a>
-          <a class="btn btn-xs btn-danger" onclick="Delasset({{ asset.id }})" value="/cmdb/asset/del/?id={{ asset.id }}">删除</a>
+          <a class="btn btn-xs btn-danger" onclick="Delasset({{ asset.id }},'{{ asset.hostname }}')" value="/cmdb/asset/del/?id={{ asset.id }}">删除</a>
         </td>
 </tr>
 {% endfor %}
