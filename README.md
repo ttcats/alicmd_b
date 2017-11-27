@@ -1,4 +1,5 @@
 # Jerry
+## (python 2.7.5 / django 1.10)
 ![](https://github.com/ttcats/jerry/blob/master/jerry/static/img/oms.jpg)
 
 ## alicmdb
