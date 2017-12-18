@@ -17,5 +17,8 @@
 ## ansible
 ![](https://github.com/ttcats/jerry/blob/master/jerry/static/img/an.jpg)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4bac101034b98ee0ca7ce4bdd0812bc1a027e3b6
 ### (python 2.7.5 / django 1.10)
