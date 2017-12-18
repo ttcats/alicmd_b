@@ -15,13 +15,16 @@ import tornado.web
 import tornado.wsgi
 #import tornado.websocket
 
-from tornado.options import options, define
+from tornado.options import options
 
-from handlers import *
+from handlers import WSHandler
 from ioloop import IOLoop
 
 
-define('port', type=int, default=8559)
+
+def welcome():
+    print '''Please visit the localhost:8559 from the explorer~'''
+
 
 
 def main():
@@ -30,7 +33,7 @@ def main():
         'cookie_secret': 'DFksdfsasdfkasdfFKwlwfsdfsa1204mx',
         'template_path': os.path.join(os.path.dirname(__file__), 'templates'),
         'static_path': os.path.join(os.path.dirname(__file__), 'static'),
-        'debug': False,
+        'debug': True,
     }
 
     tornado_app = tornado.web.Application(
@@ -41,8 +44,9 @@ def main():
         ])
     options.parse_config_file('webssh.conf')
     server = tornado.httpserver.HTTPServer(tornado_app)
-    server.listen(options.port, address='0.0.0.0')
+    server.listen('8559', address='0.0.0.0')
     IOLoop.instance().start()
+    welcome()
     tornado.ioloop.IOLoop.instance().start()
 
 

@@ -24,6 +24,7 @@ SECRET_KEY = 'id)%(*!nw64imo4mqta-7=k4_s#hm)+58v$eisk+1csd3&abht'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 

@@ -14,7 +14,6 @@ import multiprocessing
 import time
 
 
-
 @login_required
 @csrf_exempt
 def db_info(request):
@@ -168,6 +167,7 @@ def dbinfo_change(request):
 
 
 @login_required
+@csrf_exempt
 def db_messages(request):
     if request.method == "GET":
         search = request.GET['search'] if 'search' in request.GET.keys() else ''
@@ -205,7 +205,6 @@ def db_messages(request):
         return HttpResponse(t)
 
 
-
 @login_required
 @csrf_exempt
 def db_opera(request):
@@ -230,7 +229,6 @@ def db_opera(request):
         return HttpResponse(msg)
 
 
-
 @login_required
 def mysql_command(host,user,passwd,db,port,sql,queues):
     queues.put(os.getpid())  #子进程
@@ -249,9 +247,6 @@ def mysql_command(host,user,passwd,db,port,sql,queues):
         ret['export'] = e
 
     queues.put(ret) #结果
-
-
-
 
 
 @csrf_exempt
@@ -329,8 +324,6 @@ def db_query(request):
         return HttpResponse(table_html)
 
 
-
-
 @login_required
 @csrf_exempt
 def sql_kill(request):
@@ -344,7 +337,6 @@ def sql_kill(request):
         except Exception as e:
             print(e)
             return HttpResponse('error')
-
 
 
 

@@ -18,7 +18,6 @@ import random
 # Create your views here.
 
 
-
 @login_required
 def index(request):
     return render(request, 'index.html')
@@ -100,7 +99,7 @@ def perm_role_get(request):
             #role = user_have_perm(request.user, asset=asset)
             #logger.debug(u'获取授权系统用户: ' + ','.join([i.name for i in role]))
             #return HttpResponse(','.join([i.name for i in role]))
-            return HttpResponse('iwjw')
+            return HttpResponse('root')
     else:
         roles = get_group_user_perm(request.user).get('role').keys()
         return HttpResponse(','.join(i.name for i in roles))
@@ -115,3 +114,7 @@ def web_terminal(request):
     hostname = Asset.objects.get(id=asset_id).hostname
     print(asset_ip,asset_id)
     return render_to_response('web_terminal.html', locals())
+
+@csrf_exempt
+def page_not_found(request):
+    return render_to_response('404.html')
